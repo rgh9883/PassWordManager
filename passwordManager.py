@@ -2,8 +2,25 @@
 import tkinter as tk
 import customtkinter as ctk
 import pyperclip
+from cryptography.fernet import Fernet
+import base64
+
+#GenerateKey
+'''def createKey():
+    key = Fernet.generate_key()
+    with open('key.key', 'wb') as key_file:
+        key_file.write(key)
+createKey()'''
 
 #Functions
+def loadKey():
+    file = open('key.key', 'rb')
+    key = file.read()
+    file.close()
+    return key
+key = loadKey()
+fer = Fernet(key)
+
 def addName():
     nameScreen = ctk.CTkInputDialog(text="Type in Where Password will be used", title="passName")
     name = nameScreen.get_input()
@@ -14,9 +31,11 @@ def addPassword(namePass):
     addScreen = ctk.CTkInputDialog(text="Type in the Password", title="password")
     password = addScreen.get_input()
     with open('passwords.txt', 'a') as f:
-        f.write(namePass + "-" + password + "\n")
+        passw = fer.encrypt(password.encode())
+        f.write(namePass + "-" + base64.b64encode(passw).decode() + "\n")
     options = getOptions()
     viewMenu.configure(values=options)
+    textDisplay.configure(text="Password Added")
 
 def getOptions():
     options = []
@@ -32,8 +51,11 @@ def viewPass():
         for line in f.readlines():
             data = line.rstrip().split("-")
             if data[0] == name:
-                textDisplay.configure(text=data[1])
-                pyperclip.copy(data[1])
+                passw = base64.b64decode(data[1].encode())
+                print(passw)
+                password = fer.decrypt(passw).decode()
+                textDisplay.configure(text="Password Copied: " + password)
+                pyperclip.copy(password)
                 pyperclip.paste()
                 
                 
@@ -42,6 +64,8 @@ def viewPass():
 
 #MainApp
 ctk.set_appearance_mode("dark")
+key = loadKey()
+fer = Fernet(key)
 
 app = ctk.CTk()
 app.geometry("500x500")
