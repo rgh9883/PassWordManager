@@ -1,5 +1,5 @@
 
-import tkinter as tk
+from PIL import Image
 import customtkinter as ctk
 import pyperclip
 from cryptography.fernet import Fernet
@@ -68,24 +68,37 @@ key = loadKey()
 fer = Fernet(key)
 
 app = ctk.CTk()
-app.geometry("500x500")
+app.geometry("500x250")
+app.resizable(False, False)
 app.title("passwordManagerMain")
 
-title = ctk.CTkLabel(app, text="PassWord Manager", font=('Bold', 20))
-title.pack(padx=10,pady=10)
+#Adds Peter Griffin Background Picture
+'''bg = Image.open('peter.png')
+background = ctk.CTkImage(bg, size=(500,250))
+bgLabel = ctk.CTkLabel(app, text="", image=background)
+bgLabel.place(x=0,y=0)'''
 
-addButton = ctk.CTkButton(app, text="Add Password", command=addName, text_color='black')
-addButton.pack()
+#Header
+title = ctk.CTkLabel(app, text="Password Manager", font=('default', 40))
+title.pack(padx=10)
 
-viewButton = ctk.CTkButton(app, text="View Password", command=viewPass, text_color='black')
-viewButton.pack()
-
+#PasswordNameSelector
 viewOptions = getOptions()
 viewMenu = ctk.CTkOptionMenu(app, values=viewOptions, dropdown_fg_color='#a2c4fa', text_color='black', dropdown_text_color='black')
-viewMenu.pack()
+viewMenu.set("Pick Password Name")
+viewMenu.pack(pady=10)
 
-textDisplay = ctk.CTkLabel(app, text="")
-textDisplay.pack()
+#CreateFrame
+f = ctk.CTkFrame(app)
+f.pack()
 
+addButton = ctk.CTkButton(f, text="Add Password", command=addName, text_color='black')
+addButton.pack(side='left', padx=5)
+
+viewButton = ctk.CTkButton(f, text="View Password", command=viewPass, text_color='black')
+viewButton.pack(side='left', padx=5)
+
+textDisplay = ctk.CTkLabel(app, text="", font=('arial', 20))
+textDisplay.pack(pady=10)
 
 app.mainloop()
