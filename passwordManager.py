@@ -4,13 +4,20 @@ import customtkinter as ctk
 import pyperclip
 from cryptography.fernet import Fernet
 import base64
+import os.path
 
 #GenerateKey
-'''def createKey():
-    key = Fernet.generate_key()
-    with open('key.key', 'wb') as key_file:
-        key_file.write(key)
-createKey()'''
+def createKey():
+    path = './key.key'
+    pathExists = os.path.isfile(path)
+    if pathExists:
+        print('key already there')
+    
+    else:
+        key = Fernet.generate_key()
+        with open('key.key', 'wb') as key_file:
+            key_file.write(key)
+createKey()
 
 #Functions
 def loadKey():
