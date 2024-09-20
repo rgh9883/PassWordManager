@@ -64,48 +64,47 @@ def viewPass():
                 textDisplay.configure(text="Password Copied: " + password)
                 pyperclip.copy(password)
                 pyperclip.paste()
-                
-                
 
 
 
 #MainApp
-ctk.set_appearance_mode("dark")
-key = loadKey()
-fer = Fernet(key)
+if __name__ == "__main__":
+    ctk.set_appearance_mode("dark")
+    key = loadKey()
+    fer = Fernet(key)
 
-app = ctk.CTk()
-app.geometry("500x250")
-app.resizable(False, False)
-app.title("passwordManagerMain")
+    app = ctk.CTk()
+    app.geometry("500x250")
+    app.resizable(False, False)
+    app.title("passwordManagerMain")
 
-#Adds Peter Griffin Background Picture
-'''bg = Image.open('peter.png')
-background = ctk.CTkImage(bg, size=(500,250))
-bgLabel = ctk.CTkLabel(app, text="", image=background)
-bgLabel.place(x=0,y=0)'''
+    #Adds Peter Griffin Background Picture
+    '''bg = Image.open('peter.png')
+    background = ctk.CTkImage(bg, size=(500,250))
+    bgLabel = ctk.CTkLabel(app, text="", image=background)
+    bgLabel.place(x=0,y=0)'''
 
-#Header
-title = ctk.CTkLabel(app, text="Password Manager", font=('default', 40))
-title.pack(padx=10)
+    #Header
+    title = ctk.CTkLabel(app, text="Password Manager", font=('default', 40))
+    title.pack(padx=10)
 
-#PasswordNameSelector
-viewOptions = getOptions()
-viewMenu = ctk.CTkOptionMenu(app, values=viewOptions, dropdown_fg_color='#a2c4fa', text_color='black', dropdown_text_color='black')
-viewMenu.set("Pick Password Name")
-viewMenu.pack(pady=10)
+    #PasswordNameSelector
+    viewOptions = getOptions()
+    viewMenu = ctk.CTkOptionMenu(app, values=viewOptions, dropdown_fg_color='#a2c4fa', text_color='black', dropdown_text_color='black')
+    viewMenu.set("Pick Password Name")
+    viewMenu.pack(pady=10)
 
-#CreateFrame
-f = ctk.CTkFrame(app)
-f.pack()
+    #CreateFrame
+    f = ctk.CTkFrame(app)
+    f.pack()
 
-addButton = ctk.CTkButton(f, text="Add Password", command=addName, text_color='black')
-addButton.pack(side='left', padx=5)
+    addButton = ctk.CTkButton(f, text="Add Password", command=addName, text_color='black')
+    addButton.pack(side='left', padx=5)
 
-viewButton = ctk.CTkButton(f, text="View Password", command=viewPass, text_color='black')
-viewButton.pack(side='left', padx=5)
+    viewButton = ctk.CTkButton(f, text="View Password", command=viewPass, text_color='black')
+    viewButton.pack(side='left', padx=5)
 
-textDisplay = ctk.CTkLabel(app, text="", font=('arial', 20))
-textDisplay.pack(pady=10)
+    textDisplay = ctk.CTkLabel(app, text="", font=('arial', 20))
+    textDisplay.pack(pady=10)
 
-app.mainloop()
+    app.mainloop()
